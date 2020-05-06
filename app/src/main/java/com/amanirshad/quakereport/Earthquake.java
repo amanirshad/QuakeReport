@@ -1,26 +1,24 @@
 package com.amanirshad.quakereport;
 
-import java.util.Date;
-
 public class Earthquake {
 
     private String mLocation;
 
-    private float mMagnitude;
+    private String mMagnitude;
 
     private String mDate;
 
-    public Earthquake(String location, float magnitude, String date){
+    public Earthquake(String magnitude, String location, String date) {
         mLocation = location;
         mMagnitude = magnitude;
-        date = mDate;
+        mDate = date;
     }
 
     public String getLocation() {
         return mLocation;
     }
 
-    public float getMagnitude() {
+    public String getMagnitude() {
         return mMagnitude;
     }
 
