@@ -14,6 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 public class EarthquakeAdapter  extends ArrayAdapter<Earthquake> {
+
+    private static final String LOCATION_SEPARATOR = " of ";
+
     public EarthquakeAdapter(@NonNull Context context,  @NonNull List<Earthquake> objects) {
         super(context, 0, objects);
     }
@@ -30,15 +33,27 @@ public class EarthquakeAdapter  extends ArrayAdapter<Earthquake> {
         // Find the earthquake at the given position in the list of earthquakes
         Earthquake currentEarthquake = getItem(position);
 
+        String originalLocation = currentEarthquake.getLocation();
+        String primaryLocation;
+        String locationOffset;
+        if (originalLocation.contains(LOCATION_SEPARATOR)) {
+            String[] parts = originalLocation.split(LOCATION_SEPARATOR);
+            locationOffset = parts[0] + LOCATION_SEPARATOR;
+            primaryLocation = parts[1];
+        } else {
+            locationOffset = getContext().getString(R.string.near_the);
+            primaryLocation = originalLocation;
+        }
+
         // Find the TextView with view ID magnitude
         TextView magnitudeView = listItemView.findViewById(R.id.magnitude);
         // Display the magnitude of the current earthquake in that TextView
         magnitudeView.setText(currentEarthquake.getMagnitude());
+        TextView primaryLocationView = listItemView.findViewById(R.id.primary_location);
+        primaryLocationView.setText(primaryLocation);
 
-        // Find the TextView with view ID location
-        TextView locationView = listItemView.findViewById(R.id.location);
-        // Display the location of the current earthquake in that TextView
-        locationView.setText(currentEarthquake.getLocation());
+        TextView locationOffsetView = listItemView.findViewById(R.id.location_offset);
+        locationOffsetView.setText(locationOffset);
 
         // Create a new Date object from the time in milliseconds of the earthquake
         Date dateObject = new Date(currentEarthquake.getTimeInMilliSeconds());
